@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/todo/main.css" rel="stylesheet">
+  <link href="/todo/nav.css" rel="stylesheet">
+  <title>Document</title>
+</head>
+<body>
+<div id="app">
+  <header>ICIA Todos</header>
+  <nav>
+    <ul>
+      <li><a href="/">HOME</a></li>
+      <li><a href="/contact/list">연락처</a></li>
+      <li><a href="/supply/list">비품</a></li>
+      <li><a href="/todo/list">할일</a></li>
+    </ul>
+  </nav>
+  <main>
+    <aside>부가정보</aside>
+    <section>
+      <div style="min-height: 500px;">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>번호</th>
+            <th>마감일</th>
+            <th>작성일</th>
+            <th>할일</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="t:${todos}">
+            <td th:text="${t.tno}"></td>
+            <td th:text="${t.deadline}"></td>
+            <td th:text="${t.regDate}"></td>
+            <td>
+              <a th:href="'/todo/read?tno='+${t.tno}" th:text="${t.title + (t.finish ? '(완료)' : '')}"></a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <a class="btn btn-info" href="/todo/write">할일 작성으로</a>
+    </section>
+    <aside>부가정보</aside>
+  </main>
+  <footer>
+    copyright &copy;2025 ICIA
+  </footer>
+</div>
+</body>
+</html>

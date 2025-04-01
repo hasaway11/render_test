@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/supply/main.css" rel="stylesheet">
+  <link href="/supply/nav.css" rel="stylesheet">
+  <title>Document</title>
+</head>
+<body>
+<div id="app">
+  <header>ICIA Todos</header>
+  <nav>
+    <ul>
+      <li><a href="/">HOME</a></li>
+      <li><a href="/contact/list">연락처</a></li>
+      <li><a href="/supply/list">비품</a></li>
+      <li><a href="/todo/list">할일</a></li>
+    </ul>
+  </nav>
+  <main>
+    <aside>부가정보</aside>
+    <section>
+      <form action="/supply/add" method="post">
+        <div class="mt-3 mb-3">
+          <label class="form-lable" for="date">입고일:</label>
+          <input class="form-control" id="date" name="date" required type="date">
+        </div>
+        <div class="mt-3 mb-3">
+          <label class="form-lable" for="name">비품 이름:</label>
+          <input class="form-control" id="name" name="name" placeholder="비품 이름 입력..." required type="text">
+        </div>
+        <div class="mt-3 mb-3">
+          <label class="form-lable" for="count">개수:</label>
+          <input class="form-control" id="count" name="count" required type="number">
+        </div>
+        <div class="mt-3 mb-3">
+          <button class="btn btn-success">추가</button>
+        </div>
+      </form>
+    </section>
+    <aside>부가정보</aside>
+  </main>
+  copyright &copy;2025 ICIA
+  </footer>
+</div>
+</body>
+</html>
