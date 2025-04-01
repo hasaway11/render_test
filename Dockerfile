@@ -8,7 +8,7 @@ WORKDIR /app
 COPY --chown=gradle:gradle . .
 
 # 4. Gradle 빌드 실행
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon  --refresh-dependencies
 
 # 5. 실행할 JAR 파일을 가져오는 단계
 FROM azul/zulu-openjdk:17
