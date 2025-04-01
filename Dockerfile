@@ -9,7 +9,7 @@ COPY --chown=gradle:gradle . .
 
 # 4. Gradle 빌드 실행
 RUN chmod -R 777 /home/gradle/.gradle
-RUN gradle clean build --no-daemon --refresh-dependencies
+RUN gradle clean build --no-daemon --refresh-dependencies --no-build-cache
 
 
 # 5. 실행할 JAR 파일을 가져오는 단계
