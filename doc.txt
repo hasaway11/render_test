@@ -1,0 +1,18 @@
+ docker build -t test .
+
+✅ 최적화 포인트
+경량 베이스 이미지
+
+빌드: eclipse-temurin:17-jdk-jammy (Ubuntu LTS 기반)
+
+실행: eclipse-temurin:17-jre-alpine (Alpine Linux 기반, ~70MB)
+
+메모리 최적화
+
+-Xmx128m: 힙 메모리 128MB로 제한 (마이크로서비스에 적합)
+
+-XX:+UseSerialGC: 경량 GC 사용
+
+계층적 캐싱
+
+gradle/, build.gradle을 먼저 복사 → 빌드 캐시 재사용

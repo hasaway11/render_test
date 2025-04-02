@@ -1,28 +1,23 @@
-# 1. 베이스 이미지 (Gradle 포함된 JDK 17 사용)
-FROM gradle:7.5.1-jdk17 AS builder
+# Stage 1: 빌드 환경 (가벼운 OpenJDK)
+FROM eclipse-temurin:17-jdk-jammy AS builder
 
-# 2. 작업 디렉토리 설정
 WORKDIR /app
-USER root
-RUN mkdir -p /home/gradle/.gradle && \
-    chown -R gradle:gradle /home/gradle && \
-    chmod -R 777 /home/gradle/.gradle && \
-    mkdir -p /app/.gradle && \
-    chown -R gradle:gradle /app/.gradle && \
-    chmod -R 777 /app/.gradle
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
+COPY src src
 
-# 3. 프로젝트 파일 복사 (gradle 사용자로)
-USER gradle
-COPY --chown=gradle:gradle . .
+# Gradle 캐시 최적화 (테스트 생략)
+RUN chmod +x gradlew && \
+    ./gradlew clean build --no-daemon -x test
 
-# 4. Gradle 빌드 실행 (gradle 사용자로)
-RUN gradle clean build --no-daemon --refresh-dependencies --stacktrace
+# Stage 2: 실행 환경 (Alpine 기반 경량 JRE)
+FROM eclipse-temurin:17-jre-alpine
 
-
-# 5. 실행할 JAR 파일을 가져오는 단계
-FROM azul/zulu-openjdk:17
+EXPOSE 8080
 WORKDIR /app
-COPY --from=builder /app/build/libs/demo3-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/build/libs/*.jar app.jar
 
-# 6. 애플리케이션 실행
-CMD ["java", "-jar", "app.jar"]
+# 메모리 최적화 실행 (Alpine 호환성 주의)
+ENTRYPOINT ["java", "-XX:+UseSerialGC", "-Xmx128m", "-jar", "app.jar"]
